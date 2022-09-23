@@ -4,20 +4,23 @@
     ViewData["Title"] = "Home page";
 }
 @{
-    
+    var obj = Model.customer;
 }
+
+
 <h1>Enter your customer name and start ordering!</h1>
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="NewCustomer.CustomerName" class="control-label"></label>
-                <input asp-for="NewCustomer.CustomerName" class="form-control" />
-                <span asp-validation-for="NewCustomer.CustomerName" class="text-danger"></span>
+                <label asp-for="@obj.CustomerName" class="control-label"></label>
+                <input asp-for="@obj.CustomerName" class="form-control" />
+                <span asp-validation-for="@obj.CustomerName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+             
+                <input type="submit" value="Create" class="btn btn-primary"/>
             </div>
         </form>
     </div>

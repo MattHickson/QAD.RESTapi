@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using POSAPI.Models;
-namespace POSAPI.Controllers
+using Project.Models;
+
+namespace Project.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,6 +29,14 @@ namespace POSAPI.Controllers
             await this.context.SaveChangesAsync();
             return Ok(await this.context.Customers.ToListAsync());
 
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Customer>>Get(int id)
+        {
+            var theCustomer = await this.context.Customers.FindAsync(id);
+            if (theCustomer == null)
+                return BadRequest("Bad ID");
+            return Ok(theCustomer);
         }
     }
 }
