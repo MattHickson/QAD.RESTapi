@@ -1,0 +1,48 @@
+﻿@page
+@model POSPages.Pages.CartDropModel
+@{
+
+
+}
+@functions{
+        private void addToCartConfirmed()
+        {
+                    
+        }
+}
+<h1>Add to Cart</h1>
+<h4>Item</h4>
+<hr />
+@{ var obj = Model.Item;}
+    <div class="row">
+        <div class="col-md-4">
+            <form method="cartPost">
+               
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Item.Id" />
+                <div class="form-group">
+                    @obj.Name
+                </div>
+                <div class="form-group">
+                    @obj.Description
+                </div>
+                <div class="form-group">
+                    @obj.Price
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add to Cart" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+<div>
+    <a asp-page="./Menu">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
+

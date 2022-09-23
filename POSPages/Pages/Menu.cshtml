@@ -1,0 +1,53 @@
+﻿@page
+@model POSPages.Pages.MenuModel
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">Menu list</h2>
+		</div>
+		<div class="col-6 text-end">
+		</div>
+	</div>
+
+	<br /><br />
+	
+
+	<table class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th>
+					Item
+				</th>
+				<th>
+					Item Description
+				</th>
+				<th>
+					Price
+				</th>
+				<th>
+					Add to Cart
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var obj in Model.Items)
+			{
+				<tr>
+					<td width="20%">@obj.Name</td>
+					<td width="50%">@obj.Description</td>
+					<td width="10%">$@obj.Price</td>
+					<td>
+						<div class="w-75 btn-group" role="group">
+						<a asp-page="CartDrop" asp-route-id="@obj.Id" class="btn btn-primary mx-2">
+							<i class="bi bi-square"></i>
+						</a>
+
+						</div>
+					</td>
+				</tr>
+			}
+			
+		</tbody>
+	</table>
+
+</div>
