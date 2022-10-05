@@ -29,7 +29,7 @@ namespace POSPages.Pages
 
         [BindProperty]
         public Customer Customer { get; set; } = default!;
-        
+        public int quantity { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -82,6 +82,10 @@ namespace POSPages.Pages
                 var Sender = new Uri(targeturi);
                 var List = client.GetFromJsonAsync<List<Customer>>(Sender).Result;
                 client.Dispose();
+                if (List.Count == 0)
+                {
+                    return false;
+                }
                 return customerListScroll(List, customer);
             }
         }
