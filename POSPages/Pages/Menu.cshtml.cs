@@ -29,9 +29,6 @@ namespace POSPages.Pages
         public void OnGet()
         {
             
-           
-           
-
         }
     }
  }

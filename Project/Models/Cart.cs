@@ -15,6 +15,6 @@ namespace Project.Models
         [Required]
         public int Quantity { get; set; }
         [Required]
-        public int CustomerID;
+        public int CustomerId { get; set; }
     }
 }

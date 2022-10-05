@@ -2,6 +2,7 @@ global using Project.Controllers;
 global using Microsoft.AspNetCore.Components.Web;
 global using Project.Data;
 global using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//
+app.UseHttpsRedirection();
+//
 app.UseAuthorization();
 
 app.MapRazorPages();

@@ -35,13 +35,22 @@ namespace POSPages.Pages
                 return Page();
             }
             bool test = CheckCustomer(Customer);
+
+// Cookie Creation block
             if (test)
             {
-                string data = Customer.ToString();
+                string data = Customer.CustomerId.ToString();
 
-                Cookie cookie = new Cookie("Login", data);
-                new CookieContainer().Add(cookie);
+                var cookieOptions = new CookieOptions
+                {
+                    Secure = true,
+                    Expires = DateTime.Now.AddDays(1),
+                    HttpOnly = true,
+                    SameSite = SameSiteMode.Lax
                 
+                    
+                };
+                Response.Cookies.Append("LoginID",data);
             }
 //implement T/F check for result that failed or successful login
             return RedirectToPage("./Menu");
