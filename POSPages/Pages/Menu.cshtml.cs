@@ -66,9 +66,9 @@ namespace POSPages.Pages
             if (id != null)
             {
                 
-                for (int count = 0; count <= customers.Count; count++)
+                for (int count = 0; count <= customers.Count-1; count++)
                 {
-                    if (customers[customers.Count - 1].CustomerId == id)
+                    if (customers[count].CustomerId == id)
                     {
 
                         return true;

@@ -2,17 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Data;
 
 #nullable disable
 
-namespace Project.Migrations
+namespace POSAPI.Migrations.Customer
 {
-    [DbContext(typeof(ItemContext))]
-    partial class ItemContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CustomerContext))]
+    [Migration("20221011130238_FreshCustomer")]
+    partial class FreshCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,28 +23,25 @@ namespace Project.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Project.Models.Item", b =>
+            modelBuilder.Entity("POSAPI.Models.Customer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"), 1L, 1);
 
-                    b.Property<string>("Description")
+                    b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("CustomerPassword")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.HasKey("CustomerId");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Items");
+                    b.ToTable("Customers");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,6 +5,7 @@ using Project.Data;
 using Project.Models;
 using System.Net.Http.Json;
 using POSAPI.Models;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace POSPages.Pages
 {
@@ -86,19 +87,34 @@ namespace POSPages.Pages
 
         private void CartPayload()
         {
-
-            using (var client = new HttpClient())
+            buildCart();
+            if (cartCheck())
             {
-                var targeturi = "https://localhost:7148/api/Cart";
-                var Sender = new Uri(targeturi);
-                //cart check
-                buildCart();
-                var payload = client.PostAsJsonAsync<Cart>(Sender, this.Cart).Result;
-
-                client.Dispose();
+                int cartId = CartId();
+                if (cartId != -1)
+                using (var client = new HttpClient())
+                {
+                    var targeturi = "https://localhost:7148/api/Cart";
+                    var Sender = new Uri(targeturi);
+                    var payload = client.PostAsJsonAsync<Cart>(Sender, this.Cart).Result;
+                    client.Dispose();
+                }
             }
+            else
+            {
+                using (var client = new HttpClient())
+                {
+
+
+                    var targeturi = "https://localhost:7148/api/Cart";
+                    var Sender = new Uri(targeturi);
+                    var payload = client.PutAsJsonAsync<Cart>(Sender, this.Cart).Result;
+                    client.Dispose();
+                }
+            }
+
         }
-        //Builds a fresh cart on the flys
+        //Builds a cart ready for post
         private void buildCart()
         {
 
@@ -111,16 +127,55 @@ namespace POSPages.Pages
 
         }
 
+        private int CartId()
+        {
+            using (var client = new HttpClient())
+            {
 
+
+                var targeturi = "https://localhost:7148/api/Cart";
+                var Sender = new Uri(targeturi);
+                var test = client.GetFromJsonAsync<List<Cart>>(Sender).Result;
+                client.Dispose();
+                for (int count = 0; count <= test.Count - 1; count++)
+                {
+                    if (test[count].CustomerId == int.Parse(Request.Cookies["LoginID"]) && test[count].Name == this.Cart.Name)
+                    {
+                        this.Cart.Id = test[count].Id;
+                        return test[count].Id;
+                    }
+                }
+            }
+            return -1;
+        }
 
         //todo Add checks to see if customer has Item in cart 
         // If item exists(true) then update with quntity + new quantity
         private bool cartCheck()
         {
-            bool existing = false;
+            
+            using (var client = new HttpClient())
+            {
 
-
-            return existing;
+                
+                var targeturi = "https://localhost:7148/api/Cart";
+                var Sender = new Uri(targeturi);
+                var test = client.GetFromJsonAsync<List<Cart>>(Sender).Result;
+                client.Dispose();
+                if (test != null)
+                {
+                    for (int count = 0; count <= test.Count-1 ;count++)
+                    {
+                        if(test[count].CustomerId == int.Parse(Request.Cookies["LoginID"]) && test[count].Name == this.Cart.Name)
+                        {
+                            
+                            return true;
+                        }
+                    }
+                }
+            }
+            
+            return false;
         }
 
         private bool CheckCustomer()
@@ -146,11 +201,11 @@ namespace POSPages.Pages
             if (id != null)
             {
 
-                for (int count = 0; count <= customers.Count; count++)
+                for (int count = 0; count <= customers.Count-1; count++)
                 {
-                    if (customers[customers.Count - 1].CustomerId == id)
+                    if (customers[count].CustomerId == id)
                     {
-                        buildcustomer(customers[customers.Count - 1]);
+                        buildcustomer(customers[count]);
                         return true;
                     }
                 }

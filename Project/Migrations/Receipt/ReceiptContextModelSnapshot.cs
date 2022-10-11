@@ -7,10 +7,10 @@ using Project.Data;
 
 #nullable disable
 
-namespace Project.Migrations
+namespace POSAPI.Migrations.Receipt
 {
-    [DbContext(typeof(ItemContext))]
-    partial class ItemContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ReceiptContext))]
+    partial class ReceiptContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace Project.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Project.Models.Item", b =>
+            modelBuilder.Entity("POSAPI.Models.Receipt", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,20 +29,23 @@ namespace Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Description")
+                    b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
+                    b.Property<int>("customerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("items")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Price")
+                    b.Property<double>("total")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("Receipts");
                 });
 #pragma warning restore 612, 618
         }

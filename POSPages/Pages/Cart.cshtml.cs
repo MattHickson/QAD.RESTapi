@@ -11,8 +11,8 @@ namespace POSPages.Pages
 
 
         public List<Cart> Items { get; set; }
-        private Customer customer { get; set; }
-        public double total { get; set; }
+        private Customer Customer { get; set; }
+        public double Total { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -56,9 +56,9 @@ namespace POSPages.Pages
 
                 for (int count = 0; count <= customers.Count; count++)
                 {
-                    if (customers[customers.Count - 1].CustomerId == id)
+                    if (customers[count].CustomerId == id)
                     {
-                        buildcustomer(customers[customers.Count - 1]);
+                        buildcustomer(customers[count]);
                         return true;
                     }
                 }
@@ -68,7 +68,7 @@ namespace POSPages.Pages
         }
         private void buildcustomer(Customer customer)
         {
-            this.customer = customer;
+            this.Customer = customer;
         }
 
         private void CartGrab()
@@ -84,7 +84,7 @@ namespace POSPages.Pages
                 List<Cart> finalCart = new List<Cart>();
                 for (int count = 0; count <= Cart.Count-1; count++)
                 {
-                    if (Cart[count].CustomerId == this.customer.CustomerId)
+                    if (Cart[count].CustomerId == this.Customer.CustomerId)
                     {
                         finalCart.Add(Cart[count]);
                     }
@@ -96,7 +96,7 @@ namespace POSPages.Pages
         {
             for (int count = 0; count <= Items.Count - 1; count++)
             {
-                this.total = total + (Items[count].Price * Items[count].Quantity);
+                this.Total = Total + (Items[count].Price * Items[count].Quantity);
             }
 
         }

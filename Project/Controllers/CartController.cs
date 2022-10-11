@@ -44,5 +44,17 @@ namespace POSAPI.Controllers
             await this.context.SaveChangesAsync();
             return Ok(await this.context.CartItems.ToListAsync());
         }
+        [HttpPut]
+        public async Task<ActionResult<List<Cart>>> UpdateItem(Cart request)
+        {
+            var cart = await this.context.CartItems.FindAsync(request.Id);
+            if (cart == null)
+                return BadRequest("Bad ID");
+            cart.Name = request.Name;
+            cart.Quantity += request.Quantity;
+            cart.Price = request.Price;
+            await this.context.SaveChangesAsync();
+            return Ok(await this.context.CartItems.ToListAsync());
+        }
     }
 }

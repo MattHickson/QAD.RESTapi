@@ -2,17 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project.Data;
 
 #nullable disable
 
-namespace Project.Migrations
+namespace POSAPI.Migrations
 {
-    [DbContext(typeof(ItemContext))]
-    partial class ItemContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CartContext))]
+    [Migration("20221011130209_FreshCart")]
+    partial class FreshCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,7 +23,7 @@ namespace Project.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Project.Models.Item", b =>
+            modelBuilder.Entity("Project.Models.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -29,9 +31,8 @@ namespace Project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -40,9 +41,12 @@ namespace Project.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("CartItems");
                 });
 #pragma warning restore 612, 618
         }

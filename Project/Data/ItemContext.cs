@@ -28,6 +28,12 @@ namespace Project.Data
 		public DbSet<Customer> Customers { get; set; }
 
 	}
+    public class ReceiptContext : DbContext
+    {
+        public ReceiptContext(DbContextOptions<ReceiptContext> options) : base(options) { }
+        public DbSet<Receipt> Receipts { get; set; }
+
+    }
 
 }
 

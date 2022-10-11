@@ -72,11 +72,11 @@ namespace POSPages.Pages
         private bool customerListScroll(List<Customer> customers,Customer customer)
         {
             bool value = false;   
-            for(int count = 0; count<=customers.Count;count++)
+            for(int count = 0; count<=customers.Count-1;count++)
             {
-                if (customer.CustomerName == customers[customers.Count-1].CustomerName & customer.CustomerPassword == customers[customers.Count - 1].CustomerPassword)
+                if (customer.CustomerName == customers[count].CustomerName & customer.CustomerPassword == customers[count].CustomerPassword)
                 {
-                    this.Customer = customers[customers.Count-1];
+                    this.Customer = customers[count];
                     return value = true;
                 }
             }
