@@ -16,56 +16,73 @@ namespace POSPages.Pages
         public Item Item { get; set; } = default!;
         public Cart Cart = new Cart();
         private int id;
+        private Customer customer { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id != null)
             {
                 if (CheckCustomer())
                 {
-                    Item = ItemGrab((int)id);
-                    this.id = id
+                    this.Item = ItemGrab((int)id);
+                    this.id = (int)id;
+                    string data = this.id.ToString();
+
+                    var cookieOptions = new CookieOptions
+                    {
+                        Secure = true,
+                        Expires = DateTime.Now.AddDays(1),
+                        HttpOnly = true,
+                        SameSite = SameSiteMode.Lax
+
+
+                    };
+                    Response.Cookies.Append("CurrentCart", data);
                     return Page();
                 }
                 else
                 {
                     return RedirectToPage("./Login");
                 }
-                
+
             }
             return RedirectToPage("./Error");
         }
+
+
+
         public async Task<IActionResult> OnPostAsync()
         {
             CartPayload();
             return RedirectToPage("./Menu");
         }
+
+
+
+
+
+
+
         //Handls API Connection for Item Grabbing
         private Item ItemGrab(int id)
         {
             using (var client = new HttpClient())
             {
 
-                var targeturi = "https://localhost:7148/api/Item/" + id.ToString();
+                var targeturi = "https://localhost:7148/api/Item/" + id;
                 var request = new Uri(targeturi);
                 var response = client.GetFromJsonAsync<Item>(request).Result;
                 var item = response;
                 client.Dispose();
+                if (item != null)
+                {
+                    return item;
+                }
                 return item;
             }
 
         }
 
-        //Builds a fresh cart on the fly
-        private void buildCart()
-        {
-            Item item = ItemGrab(this.id);
-            this.Cart.Id = 0;
-            this.Cart.Name = Item.Name;
-            this.Cart.Price = Item.Price;
-            this.Cart.Quantity = 1;
-            this.Cart.CustomerId = int.Parse(Request.Cookies["LoginID"]);
 
-        }
 
         private void CartPayload()
         {
@@ -76,10 +93,22 @@ namespace POSPages.Pages
                 var Sender = new Uri(targeturi);
                 //cart check
                 buildCart();
-                var payload = client.PostAsJsonAsync<Cart>(Sender,this.Cart);
+                var payload = client.PostAsJsonAsync<Cart>(Sender, this.Cart).Result;
 
                 client.Dispose();
             }
+        }
+        //Builds a fresh cart on the flys
+        private void buildCart()
+        {
+
+            var item = ItemGrab(int.Parse(Request.Cookies["CurrentCart"]));
+            this.Cart.Id = 0;
+            this.Cart.Name = item.Name;
+            this.Cart.Price = item.Price;
+            this.Cart.Quantity = 1;
+            this.Cart.CustomerId = int.Parse(Request.Cookies["LoginID"]);
+
         }
 
 
@@ -112,20 +141,27 @@ namespace POSPages.Pages
         }
         private bool customerListScrollId(List<Customer> customers)
         {
-           
+
             int id = int.Parse(Request.Cookies["LoginID"]);
-            
-            for (int count = 0; count <= customers.Count; count++)
+            if (id != null)
             {
-                if (customers[customers.Count - 1].CustomerId == id)
+
+                for (int count = 0; count <= customers.Count; count++)
                 {
-                   
-                    return true;
+                    if (customers[customers.Count - 1].CustomerId == id)
+                    {
+                        buildcustomer(customers[customers.Count - 1]);
+                        return true;
+                    }
                 }
             }
+
             return false;
         }
-    }
-    
+        private void buildcustomer(Customer customer)
+        {
+            this.customer = customer;
+        }
 
+    }
 }
