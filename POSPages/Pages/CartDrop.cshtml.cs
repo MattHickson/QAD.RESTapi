@@ -48,21 +48,11 @@ namespace POSPages.Pages
             }
             return RedirectToPage("./Error");
         }
-
-
-
         public async Task<IActionResult> OnPostAsync()
         {
             CartPayload();
             return RedirectToPage("./Menu");
         }
-
-
-
-
-
-
-
         //Handls API Connection for Item Grabbing
         private Item ItemGrab(int id)
         {
@@ -82,9 +72,6 @@ namespace POSPages.Pages
             }
 
         }
-
-
-
         private void CartPayload()
         {
             buildCart();
@@ -96,7 +83,7 @@ namespace POSPages.Pages
                 {
                     var targeturi = "https://localhost:7148/api/Cart";
                     var Sender = new Uri(targeturi);
-                    var payload = client.PostAsJsonAsync<Cart>(Sender, this.Cart).Result;
+                    var payload = client.PutAsJsonAsync<Cart>(Sender, this.Cart).Result;
                     client.Dispose();
                 }
             }
@@ -104,15 +91,12 @@ namespace POSPages.Pages
             {
                 using (var client = new HttpClient())
                 {
-
-
                     var targeturi = "https://localhost:7148/api/Cart";
                     var Sender = new Uri(targeturi);
-                    var payload = client.PutAsJsonAsync<Cart>(Sender, this.Cart).Result;
+                    var payload = client.PostAsJsonAsync<Cart>(Sender, this.Cart).Result;
                     client.Dispose();
                 }
             }
-
         }
         //Builds a cart ready for post
         private void buildCart()
@@ -126,7 +110,6 @@ namespace POSPages.Pages
             this.Cart.CustomerId = int.Parse(Request.Cookies["LoginID"]);
 
         }
-
         private int CartId()
         {
             using (var client = new HttpClient())
@@ -148,7 +131,6 @@ namespace POSPages.Pages
             }
             return -1;
         }
-
         //todo Add checks to see if customer has Item in cart 
         // If item exists(true) then update with quntity + new quantity
         private bool cartCheck()
@@ -177,7 +159,6 @@ namespace POSPages.Pages
             
             return false;
         }
-
         private bool CheckCustomer()
         {
             using (var client = new HttpClient())
@@ -217,6 +198,5 @@ namespace POSPages.Pages
         {
             this.customer = customer;
         }
-
     }
 }

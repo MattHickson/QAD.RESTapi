@@ -1,7 +1,7 @@
 ﻿@page
 @model POSPages.Pages.CartModel
 <H1>Cart Total:</H1>
-<H1 style="text-align:right">$@Model.total</H1>
+<H1 style="text-align:right">$@Model.Total</H1>
 <table class="table table-bordered table-striped" style="width:100%">
 		<thead>
 			<tr>
@@ -12,7 +12,7 @@
 				Quantity
 				</th>
 				<th>
-				Price
+				Price(e)
 				</th>
 			</tr>
 		</thead>
@@ -25,6 +25,10 @@
 					<td width="10%">$@obj.Price</td>
 				</tr>
 			}
-
 		</tbody>
 	</table>
+	<p>
+		<form method="post">
+			<input type="submit" value="Confirm Cart"class="btn btn-primary"/>
+		</form>
+	</p>

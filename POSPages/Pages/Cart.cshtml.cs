@@ -23,13 +23,22 @@ namespace POSPages.Pages
                 CartGrab();
                 totalout();
 
-                 return Page();
+                return Page();
             }
             else
             {
                 return RedirectToPage("./Login");
             }
 
+        }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            CheckCustomer();
+            CartGrab();
+            totalout();
+            finishRecipt();
+
+            return RedirectToPage("./Index");
         }
         private bool CheckCustomer()
         {
@@ -54,7 +63,7 @@ namespace POSPages.Pages
             if (id != null)
             {
 
-                for (int count = 0; count <= customers.Count; count++)
+                for (int count = 0; count <= customers.Count-1; count++)
                 {
                     if (customers[count].CustomerId == id)
                     {
@@ -76,13 +85,13 @@ namespace POSPages.Pages
 
             using (var client = new HttpClient())
             {
-                
+
                 var targeturi = "https://localhost:7148/api/Cart";
                 var Sender = new Uri(targeturi);
                 var Cart = client.GetFromJsonAsync<List<Cart>>(Sender).Result;
                 client.Dispose();
                 List<Cart> finalCart = new List<Cart>();
-                for (int count = 0; count <= Cart.Count-1; count++)
+                for (int count = 0; count <= Cart.Count - 1; count++)
                 {
                     if (Cart[count].CustomerId == this.Customer.CustomerId)
                     {
@@ -92,14 +101,41 @@ namespace POSPages.Pages
                 this.Items = finalCart;
             }
         }
+        //Gives current Total Cost of all Items * individual quantities
         private void totalout()
         {
             for (int count = 0; count <= Items.Count - 1; count++)
             {
                 this.Total = Total + (Items[count].Price * Items[count].Quantity);
+                //wrong syntax
+               // this.Total = decimal.Round(this.Total, 2, MidpointRounding.AwayFromZero);
             }
 
         }
-        
+        // Only used on Cart Page
+        private void finishRecipt()
+        {
+            Receipt receipt = new Receipt();
+            receipt.Id = 0;
+            receipt.total = this.Total;
+            receipt.CustomerName = this.Customer.CustomerName;
+            receipt.customerId = this.Customer.CustomerId;
+            for (int count = 0; count <= Items.Count - 1; count++)
+            {
+                receipt.items += Items[count].Name + ":" + Items[count].Quantity.ToString();
+                if (count != Items.Count - 1)
+                {
+                    receipt.items += ":";
+                }
+            }
+            using (var client = new HttpClient())
+            {
+
+                var targeturi = "https://localhost:7148/api/Receipt";
+                var Sender = new Uri(targeturi);
+                var payload = client.PostAsJsonAsync<Receipt>(Sender, receipt).Result;
+                client.Dispose();
+            }
+        }
     }
 }

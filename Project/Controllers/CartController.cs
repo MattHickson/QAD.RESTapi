@@ -51,7 +51,7 @@ namespace POSAPI.Controllers
             if (cart == null)
                 return BadRequest("Bad ID");
             cart.Name = request.Name;
-            cart.Quantity += request.Quantity;
+            cart.Quantity = cart.Quantity + request.Quantity;
             cart.Price = request.Price;
             await this.context.SaveChangesAsync();
             return Ok(await this.context.CartItems.ToListAsync());
