@@ -110,6 +110,7 @@ namespace POSPages.Pages
             this.Cart.CustomerId = int.Parse(Request.Cookies["LoginID"]);
 
         }
+        //Grabs the corrected Cart ID for posting
         private int CartId()
         {
             using (var client = new HttpClient())

@@ -34,6 +34,7 @@ namespace POSAPI.Controllers
             await this.context.SaveChangesAsync();
             return Ok(await this.context.CartItems.ToListAsync());
         }
+        //use CustomerID
         [HttpDelete]
         public async Task<ActionResult<List<Cart>>> DeleteItem(int id)
         {

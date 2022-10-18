@@ -16,7 +16,6 @@ namespace POSPages.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-
             bool loginQuestion = CheckCustomer();
             if (loginQuestion)
             {
@@ -29,7 +28,6 @@ namespace POSPages.Pages
             {
                 return RedirectToPage("./Login");
             }
-
         }
         public async Task<IActionResult> OnPostAsync()
         {
@@ -40,6 +38,7 @@ namespace POSPages.Pages
 
             return RedirectToPage("./Index");
         }
+        //Page Check for active Customer data
         private bool CheckCustomer()
         {
             using (var client = new HttpClient())
@@ -67,7 +66,7 @@ namespace POSPages.Pages
                 {
                     if (customers[count].CustomerId == id)
                     {
-                        buildcustomer(customers[count]);
+                        this.Customer = customers[count];
                         return true;
                     }
                 }
@@ -75,11 +74,6 @@ namespace POSPages.Pages
 
             return false;
         }
-        private void buildcustomer(Customer customer)
-        {
-            this.Customer = customer;
-        }
-
         private void CartGrab()
         {
 
@@ -107,10 +101,9 @@ namespace POSPages.Pages
             for (int count = 0; count <= Items.Count - 1; count++)
             {
                 this.Total = Total + (Items[count].Price * Items[count].Quantity);
-                //wrong syntax
-               // this.Total = decimal.Round(this.Total, 2, MidpointRounding.AwayFromZero);
-            }
 
+            }
+            this.Total = Math.Round(this.Total, 2);
         }
         // Only used on Cart Page
         private void finishRecipt()
@@ -122,10 +115,10 @@ namespace POSPages.Pages
             receipt.customerId = this.Customer.CustomerId;
             for (int count = 0; count <= Items.Count - 1; count++)
             {
-                receipt.items += Items[count].Name + ":" + Items[count].Quantity.ToString();
+                receipt.items += Items[count].Name + ":" + Items[count].Price.ToString() + ":" + Items[count].Quantity.ToString() + ":" + (Items[count].Price * Items[count].Quantity).ToString();
                 if (count != Items.Count - 1)
                 {
-                    receipt.items += ":";
+                    receipt.items += " :";
                 }
             }
             using (var client = new HttpClient())
@@ -135,6 +128,23 @@ namespace POSPages.Pages
                 var Sender = new Uri(targeturi);
                 var payload = client.PostAsJsonAsync<Receipt>(Sender, receipt).Result;
                 client.Dispose();
+            }
+            CartRemove();
+        }
+        //Remove User's Current active Cart on Recipt Create
+        private void CartRemove()
+        {
+            for (int count = 0; count <= Items.Count - 1; count++)
+            {
+                //Achive into an AchiveCart here with a Date
+                using (var client = new HttpClient())
+                {
+                    var targeturi = "https://localhost:7148/api/Cart?id=" + Items[count].Id;
+                    var Sender = new Uri(targeturi);
+                    var payload = client.DeleteAsync(Sender).Result;
+                    client.Dispose();
+
+                }
             }
         }
     }

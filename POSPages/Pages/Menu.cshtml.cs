@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Linq;
 using POSAPI.Models;
 namespace POSPages.Pages
-{
+{//Completed? only page style to change
     public class MenuModel : PageModel
     {
         
