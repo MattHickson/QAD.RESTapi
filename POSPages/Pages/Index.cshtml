@@ -6,5 +6,22 @@
 @{
 }
 
+@if(Model.logged){
+    <h1>
+        Welcome @Model.customerName Please begin Ordering.
+        <a class="nav-link text-dark" asp-area="" asp-page="/Menu">Menu</a>
+        <a class="nav-link text-dark" asp-area="" asp-page="/Cart">Cart</a>
+    </h1>
 
-<h1>Please login to Begin ordering!</h1>
+}
+@if (!Model.logged)
+{
+    <h1>
+        Please login to Begin ordering!
+        <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+        <a class="nav-link text-dark" asp-area="" asp-page="/NewLogin">Create Login</a>
+    </h1>
+
+    
+}
+

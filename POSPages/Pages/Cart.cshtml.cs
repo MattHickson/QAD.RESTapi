@@ -38,6 +38,13 @@ namespace POSPages.Pages
 
             return RedirectToPage("./Index");
         }
+        public IActionResult OnPostDelete()
+        {
+            CheckCustomer();
+            CartGrab();
+            deleteCart();
+            return RedirectToPage("./Cart");
+        }
         //Page Check for active Customer data
         private bool CheckCustomer()
         {
@@ -145,6 +152,19 @@ namespace POSPages.Pages
                     client.Dispose();
 
                 }
+            }
+        }
+        private void deleteCart()
+        {
+            var data = Request.Form["target"];
+            int target = int.Parse(data);
+            using (var client = new HttpClient())
+            {
+                var targeturi = "https://localhost:7148/api/Cart?id=" + target;
+                var Sender = new Uri(targeturi);
+                var payload = client.DeleteAsync(Sender).Result;
+                client.Dispose();
+
             }
         }
     }

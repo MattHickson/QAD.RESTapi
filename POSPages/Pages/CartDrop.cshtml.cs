@@ -15,6 +15,9 @@ namespace POSPages.Pages
 
         [BindProperty]
         public Item Item { get; set; } = default!;
+        [BindProperty]
+        public int Quant { get; set; }
+       
         public Cart Cart = new Cart();
         private int id;
         private Customer customer { get; set; }
@@ -53,6 +56,7 @@ namespace POSPages.Pages
             CartPayload();
             return RedirectToPage("./Menu");
         }
+
         //Handls API Connection for Item Grabbing
         private Item ItemGrab(int id)
         {
@@ -108,6 +112,10 @@ namespace POSPages.Pages
             this.Cart.Price = item.Price;
             this.Cart.Quantity = 1;
             this.Cart.CustomerId = int.Parse(Request.Cookies["LoginID"]);
+            
+           
+            this.Cart.Quantity = int.Parse(Request.Form["Quant"]);
+          
 
         }
         //Grabs the corrected Cart ID for posting
@@ -160,6 +168,7 @@ namespace POSPages.Pages
             
             return false;
         }
+
         private bool CheckCustomer()
         {
             using (var client = new HttpClient())

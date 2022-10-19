@@ -9,10 +9,10 @@
 				Item
 				</th>
 				<th>
-				Quantity
+				Price(e)
 				</th>
 				<th>
-				Price(e)
+				Quantity
 				</th>
 			</tr>
 		</thead>
@@ -21,14 +21,34 @@
 			{
 				<tr>
 					<td width="20%">@obj.Name</td>
-				<td width="50%">@obj.Quantity</td>
+				
 					<td width="10%">$@obj.Price</td>
+				<td width="5%">
+					@obj.Quantity
+				</td>
 				</tr>
+				
 			}
 		</tbody>
 	</table>
 	<p>
-		<form method="post">
-			<input type="submit" value="Confirm Cart"class="btn btn-primary"/>
-		</form>
-	</p>
+
+		
+	<form method="post">
+		<input type="submit" value="Delete" asp-page-handler="Delete" class="btn btn-primary" />
+		<select name="target">
+			@foreach (var obj in Model.Items)
+			{
+				<option value="@obj.Id">@obj.Name</option>
+
+			}
+		</select>
+		
+	</form>
+	<br />
+	<br />
+	<br />
+	<form method="post">
+		<input type="submit" value="Confirm Cart" class="btn btn-primary" />
+	</form>
+</p>
