@@ -11,12 +11,18 @@ namespace POSPages.Pages
         [BindProperty]
         public bool logged { get; set; }
         public string customerName { get; set; }
+        public Receipt receipt { get; set; }
         public void OnGet()
         {
             this.logged = CheckCustomer();
             if (logged)
             {
                 this.customerName = customer.CustomerName;
+
+                if (lastReceipt())
+                {
+
+                }
             }
         }  
         private bool CheckCustomer()
@@ -60,6 +66,55 @@ namespace POSPages.Pages
         private void buildcustomer(Customer customer)
         {
             this.customer = customer;
+        }
+        private bool lastReceipt()
+        {
+            int lastCheck = -1;
+            
+            List<Receipt> receiptList = new List<Receipt>();
+            using (var client = new HttpClient())
+            {
+
+                var targeturi = "https://localhost:7148/api/Receipt";
+                var Sender = new Uri(targeturi);
+                var List = client.GetFromJsonAsync<List<Receipt>>(Sender).Result;
+                client.Dispose();
+                for(int count = 0; count <= List.Count - 1; count++)
+                {
+                    if (List[count].customerId == customer.CustomerId)
+                    {
+                        receiptList.Add(List[count]);
+                    }
+                }
+                if(receiptList.Count > 0)
+                {
+                    if(receiptList.Count == 1)
+                    {
+                        this.receipt = receiptList[0];
+                        return true;
+                    }
+                    for(int count = 0; count <= receiptList.Count - 1; count++)
+                    {
+                        if (lastCheck == -1)
+                        {
+                            
+                            this.receipt = receiptList[count];
+                        }
+                       if(lastCheck == 1)
+                        {
+                            if (DateTime.Compare(receiptList[count].DateTime, this.receipt.DateTime) == -1)
+                            {
+                                
+                                this.receipt = receiptList[count];
+                            }
+                        }
+                        lastCheck = 1;
+                        
+                    }
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }

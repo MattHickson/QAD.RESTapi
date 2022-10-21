@@ -120,6 +120,7 @@ namespace POSPages.Pages
             receipt.total = this.Total;
             receipt.CustomerName = this.Customer.CustomerName;
             receipt.customerId = this.Customer.CustomerId;
+            receipt.DateTime = DateTime.Now;
             for (int count = 0; count <= Items.Count - 1; count++)
             {
                 receipt.items += Items[count].Name + ":" + Items[count].Price.ToString() + ":" + Items[count].Quantity.ToString() + ":" + (Items[count].Price * Items[count].Quantity).ToString();

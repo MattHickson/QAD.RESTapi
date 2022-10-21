@@ -23,4 +23,7 @@ body{
 table{
     background-color: white;
 }
-
+input{
+    padding-top: 1em;
+    margin-top: 10px
+}

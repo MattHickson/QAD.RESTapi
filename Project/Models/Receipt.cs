@@ -16,5 +16,8 @@ namespace POSAPI.Models
 		public string items { get; set; } =	string.Empty;
 		[Required]
 		public double total { get; set; }
+
+		[Required]
+		public DateTime DateTime { get; set; }
 	}
 }
