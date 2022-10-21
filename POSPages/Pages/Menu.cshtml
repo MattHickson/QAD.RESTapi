@@ -33,7 +33,11 @@
 			@foreach(var obj in Model.Items)
 			{
 				<tr>
-					<td width="20%">@obj.Name</td>
+					<td width="20%">
+						<a asp-page="CartDrop" asp-route-id="@obj.Id">
+							@obj.Name
+					</a>
+					</td>
 					<td width="50%">@obj.Description</td>
 					<td width="10%">$@obj.Price</td>
 					<td>

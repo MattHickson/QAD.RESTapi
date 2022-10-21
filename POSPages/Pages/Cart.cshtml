@@ -1,7 +1,7 @@
 ﻿@page
 @model POSPages.Pages.CartModel
-<H1>Cart Total:</H1>
-<H1 style="text-align:right">$@Model.Total</H1>
+<H1>Cart Total:   $@Model.Total</H1>
+
 <table class="table table-bordered table-striped" style="width:100%">
 		<thead>
 			<tr>
@@ -26,14 +26,11 @@
 				<td width="5%">
 					@obj.Quantity
 				</td>
-				</tr>
-				
+				</tr>	
 			}
 		</tbody>
 	</table>
-	<p>
-
-		
+	<p>		
 	<form method="post">
 		<input type="submit" value="Delete" asp-page-handler="Delete" class="btn btn-primary" />
 		<select name="target">
@@ -42,8 +39,7 @@
 				<option value="@obj.Id">@obj.Name</option>
 
 			}
-		</select>
-		
+		</select>	
 	</form>
 	<br />
 	<br />

@@ -61,7 +61,8 @@ namespace POSPages.Pages
         }
         private bool customerListScrollId(List<Customer> customers)
         {
-
+            var idTest = Request.Cookies["LoginID"];
+            if (idTest == null) { return false; }
             int id = int.Parse(Request.Cookies["LoginID"]);
             if (id != null)
             {

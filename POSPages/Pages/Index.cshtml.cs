@@ -7,20 +7,18 @@ namespace POSPages.Pages
 {
     public class IndexModel : PageModel
     {
-
-
-
-        public void OnGet()
-        {
-            this.logged = CheckCustomer();
-            this.customerName = customer.CustomerName;
-        }
-  
         private Customer customer { get; set; }
         [BindProperty]
         public bool logged { get; set; }
         public string customerName { get; set; }
-       
+        public void OnGet()
+        {
+            this.logged = CheckCustomer();
+            if (logged)
+            {
+                this.customerName = customer.CustomerName;
+            }
+        }  
         private bool CheckCustomer()
         {
             using (var client = new HttpClient())
@@ -35,7 +33,6 @@ namespace POSPages.Pages
                 }
                 return customerListScrollId(List);
             }
-
         }
         private bool customerListScrollId(List<Customer> customers)
         {
