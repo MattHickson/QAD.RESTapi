@@ -109,7 +109,7 @@ namespace POSPages.Pages
             var item = ItemGrab(int.Parse(Request.Cookies["CurrentCart"]));
             this.Cart.Id = 0;
             this.Cart.Name = item.Name;
-            this.Cart.Price = item.Price;
+            this.Cart.Price = Math.Round(item.Price,2);
             this.Cart.Quantity = 1;
             this.Cart.CustomerId = int.Parse(Request.Cookies["LoginID"]);
             

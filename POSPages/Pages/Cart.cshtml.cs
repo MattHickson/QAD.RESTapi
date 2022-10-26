@@ -126,7 +126,7 @@ namespace POSPages.Pages
                 receipt.items += Items[count].Name + ":" + Items[count].Price.ToString() + ":" + Items[count].Quantity.ToString() + ":" + (Items[count].Price * Items[count].Quantity).ToString();
                 if (count != Items.Count - 1)
                 {
-                    receipt.items += " :";
+                    receipt.items += ":";
                 }
             }
             using (var client = new HttpClient())

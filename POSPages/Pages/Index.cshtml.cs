@@ -12,6 +12,7 @@ namespace POSPages.Pages
         public bool logged { get; set; }
         public string customerName { get; set; }
         public Receipt receipt { get; set; }
+        public string[] items { get; set; }
         public void OnGet()
         {
             this.logged = CheckCustomer();
@@ -21,7 +22,7 @@ namespace POSPages.Pages
 
                 if (lastReceipt())
                 {
-
+                    editItems();
                 }
             }
         }  
@@ -102,7 +103,7 @@ namespace POSPages.Pages
                         }
                        if(lastCheck == 1)
                         {
-                            if (DateTime.Compare(receiptList[count].DateTime, this.receipt.DateTime) == -1)
+                            if (DateTime.Compare(receiptList[count].DateTime, this.receipt.DateTime) == 1)
                             {
                                 
                                 this.receipt = receiptList[count];
@@ -115,6 +116,10 @@ namespace POSPages.Pages
                 }
                 return false;
             }
+        }
+        private void editItems()
+        {
+            items = receipt.items.Split(":");
         }
     }
 }
