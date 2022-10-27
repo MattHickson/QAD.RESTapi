@@ -10,22 +10,29 @@ namespace POSPages.Pages
         private Customer customer { get; set; }
         [BindProperty]
         public bool logged { get; set; }
+        public bool lastR { get; set; }
         public string customerName { get; set; }
         public Receipt receipt { get; set; }
         public string[] items { get; set; }
         public void OnGet()
         {
+
             this.logged = CheckCustomer();
             if (logged)
             {
                 this.customerName = customer.CustomerName;
-
-                if (lastReceipt())
+                this.lastR = lastReceipt();
+                if (lastR)
                 {
                     editItems();
                 }
             }
-        }  
+        }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            logout();
+            return Page();
+        }
         private bool CheckCustomer()
         {
             using (var client = new HttpClient())
@@ -120,6 +127,10 @@ namespace POSPages.Pages
         private void editItems()
         {
             items = receipt.items.Split(":");
+        }
+        private void logout()
+        {
+            Response.Cookies.Delete("LoginID");
         }
     }
 }

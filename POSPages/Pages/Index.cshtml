@@ -7,6 +7,12 @@
 }
 
 @if(Model.logged){
+
+    <header style="text-align: right">
+        <form method="post">
+            <input type="submit" value="Logout" class="btn btn-primary" />
+        </form>
+    </header>
     <h1>
         Welcome @Model.customerName Please begin Ordering.
         <br />
@@ -14,68 +20,12 @@
         <br />
         <a class="btn btn-primary" asp-area="" asp-page="/Cart">Cart</a>
         <br />
-        
-        
-        <h2>
-            This was your last Receipt:
-            <br>
-            <br>
-            <br>
-            Receipt #@Model.receipt.Id :
-            <br>
-            Sold to: @Model.receipt.CustomerName
-            <br>
-            @Model.receipt.DateTime
-            <br>
-           
-        </h2>
-        
-        <table class="table table-bordered table-striped" style="width:40%">
-            <thead>
-                <tr>
-                    <th>
-                        Item
-                    </th>
-                    <th>
-                        Quantity
-                    </th>
-                    <th>
-                        Price
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int count = 0; count <= Model.items.Length - 1; count += 4)
-                {
-                    <tr>
-                        <td width="80%">
-                            @Model.items[count]
-                        </td>
-                        <td width="10%" style="text-align: right">
-                            #@Model.items[count+2]
-                        </td>
-                        <td width="10%" style="text-align: right">
-                            $@Model.items[count+3]
-                        </td>
-                    </tr>
-                }
-                <tr>
-                    <td width="80%">
-                        Total:
-                    </td>
-                    <td width="10%" style="text-align: right">
-                        
-                    </td>
-                    <td width="10%" style="text-align: right">
-                        $@Model.receipt.total
-                    </td>
-                </tr>
-            </tbody>
     </h1>
-
 }
+
 @if (!Model.logged)
 {
+
     <h1>
         Please login to Begin ordering!
         <br>
@@ -84,8 +34,70 @@
         <a class="btn btn-primary" asp-area="" asp-page="/NewLogin">Create Login</a>
         
     </h1>
-
-    
 }
+
+
+        
+        
+        
+@{
+    // Displays ONLY if user has a receipt
+}
+    @if (Model.lastR)
+    {
+            <h2>
+                This was your last Receipt:
+                <br>
+                <br>
+                Receipt #@Model.receipt.Id :
+                <br>
+                Sold to: @Model.receipt.CustomerName
+                <br>
+            @Model.receipt.DateTime
+                <br>
+
+            </h2>
+    <table class="table table-bordered table-striped" style="width:40%">
+        <thead>
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int count = 0; count <= Model.items.Length - 1; count += 4)
+            {
+                <tr>
+                    <td width="80%">
+                        @Model.items[count]
+                    </td>
+                    <td width="10%" style="text-align: right">
+                        #@Model.items[count+2]
+                    </td>
+                    <td width="10%" style="text-align: right">
+                        $@Model.items[count+3]
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td width="80%">
+                    Total:
+                </td>
+                <td width="10%" style="text-align: right">
+                </td>
+                <td width="10%" style="text-align: right">
+                    $@Model.receipt.total
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    }
 
 
