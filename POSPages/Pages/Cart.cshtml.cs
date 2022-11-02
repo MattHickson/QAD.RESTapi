@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using POSAPI.Migrations;
+
 using POSAPI.Models;
 using Project.Models;
 
