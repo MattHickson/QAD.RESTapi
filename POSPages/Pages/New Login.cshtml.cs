@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using POSAPI.Models;
+using POSPages.Models;
 using Project.Data;
-using Project.Models;
 using POSPages.Controllers;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -51,7 +50,7 @@ namespace POSPages.Pages
             {
                 using (var client = new HttpClient())
                 {
-                    var targeturi = "https://localhost:7148/api/Customer";
+                    var targeturi = "https://poswebapiservice.azurewebsites.net/api/Customer";
 
                     var Sender = new Uri(targeturi);
                     var Payload = client.PostAsJsonAsync<Customer>(Sender, customer).Result;
@@ -69,7 +68,7 @@ namespace POSPages.Pages
         {
             using (var client = new HttpClient())
             {
-                var targeturi = "https://localhost:7148/api/Customer";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Customer";
                 var Sender = new Uri(targeturi);
                 var List = client.GetFromJsonAsync<List<Customer>>(Sender).Result;
                 client.Dispose();

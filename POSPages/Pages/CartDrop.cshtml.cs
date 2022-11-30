@@ -2,9 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
-using Project.Models;
 using System.Net.Http.Json;
-using POSAPI.Models;
+using POSPages.Models;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace POSPages.Pages
@@ -63,7 +62,7 @@ namespace POSPages.Pages
             using (var client = new HttpClient())
             {
 
-                var targeturi = "https://localhost:7148/api/Item/" + id;
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Item/" + id;
                 var request = new Uri(targeturi);
                 var response = client.GetFromJsonAsync<Item>(request).Result;
                 var item = response;
@@ -85,7 +84,7 @@ namespace POSPages.Pages
                 if (cartId != -1)
                 using (var client = new HttpClient())
                 {
-                    var targeturi = "https://localhost:7148/api/Cart";
+                    var targeturi = "https://poswebapiservice.azurewebsites.net/api/Cart";
                     var Sender = new Uri(targeturi);
                     var payload = client.PutAsJsonAsync<Cart>(Sender, this.Cart).Result;
                     client.Dispose();
@@ -95,7 +94,7 @@ namespace POSPages.Pages
             {
                 using (var client = new HttpClient())
                 {
-                    var targeturi = "https://localhost:7148/api/Cart";
+                    var targeturi = "https://poswebapiservice.azurewebsites.net/api/Cart";
                     var Sender = new Uri(targeturi);
                     var payload = client.PostAsJsonAsync<Cart>(Sender, this.Cart).Result;
                     client.Dispose();
@@ -125,7 +124,7 @@ namespace POSPages.Pages
             {
 
 
-                var targeturi = "https://localhost:7148/api/Cart";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Cart";
                 var Sender = new Uri(targeturi);
                 var test = client.GetFromJsonAsync<List<Cart>>(Sender).Result;
                 client.Dispose();
@@ -149,7 +148,7 @@ namespace POSPages.Pages
             {
 
                 
-                var targeturi = "https://localhost:7148/api/Cart";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Cart";
                 var Sender = new Uri(targeturi);
                 var test = client.GetFromJsonAsync<List<Cart>>(Sender).Result;
                 client.Dispose();
@@ -173,7 +172,7 @@ namespace POSPages.Pages
         {
             using (var client = new HttpClient())
             {
-                var targeturi = "https://localhost:7148/api/Customer";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Customer";
                 var Sender = new Uri(targeturi);
                 var List = client.GetFromJsonAsync<List<Customer>>(Sender).Result;
                 client.Dispose();

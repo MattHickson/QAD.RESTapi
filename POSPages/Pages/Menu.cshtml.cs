@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Project.Data;
-using Project.Models;
 using Project.Controllers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Linq;
-using POSAPI.Models;
+using POSPages.Models;
 namespace POSPages.Pages
 {//Completed? only page style to change
     public class MenuModel : PageModel
@@ -20,7 +19,7 @@ namespace POSPages.Pages
         {
             using (var client = new HttpClient())
             {
-                var request = new Uri("https://localhost:7148/api/Item");
+                var request = new Uri("https://poswebapiservice.azurewebsites.net/api/Item");
                 var response = client.GetFromJsonAsync<IEnumerable<Item>>(request).Result;
                 Items = response;
                 client.Dispose();
@@ -47,7 +46,7 @@ namespace POSPages.Pages
         {
             using (var client = new HttpClient())
             {
-                var targeturi = "https://localhost:7148/api/Customer";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Customer";
                 var Sender = new Uri(targeturi);
                 var List = client.GetFromJsonAsync<List<Customer>>(Sender).Result;
                 client.Dispose();

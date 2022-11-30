@@ -12,7 +12,7 @@ namespace POSPages.Controllers
         {
             using (var client = new HttpClient())
             {
-                var targeturi = "https://localhost:7148/api/Customer";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Customer";
                 var Sender = new Uri(targeturi);
                 var List = client.GetFromJsonAsync<List<Customer>>(Sender).Result;
                 client.Dispose();

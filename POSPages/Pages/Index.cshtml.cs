@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using POSAPI.Models;
-using Project.Models;
+using POSPages.Models;
 
 namespace POSPages.Pages
 {
@@ -37,7 +36,7 @@ namespace POSPages.Pages
         {
             using (var client = new HttpClient())
             {
-                var targeturi = "https://localhost:7148/api/Customer";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Customer";
                 var Sender = new Uri(targeturi);
                 var List = client.GetFromJsonAsync<List<Customer>>(Sender).Result;
                 client.Dispose();
@@ -83,7 +82,7 @@ namespace POSPages.Pages
             using (var client = new HttpClient())
             {
 
-                var targeturi = "https://localhost:7148/api/Receipt";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Receipt";
                 var Sender = new Uri(targeturi);
                 var List = client.GetFromJsonAsync<List<Receipt>>(Sender).Result;
                 client.Dispose();

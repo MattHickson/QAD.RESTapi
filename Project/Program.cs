@@ -28,6 +28,14 @@ builder.Services.AddDbContext<ReceiptContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddDbContext<MonsterModContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PathBot"));
+});
+builder.Services.AddDbContext<DivinePoolContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PathBot"));
+});
 
 var app = builder.Build();
 

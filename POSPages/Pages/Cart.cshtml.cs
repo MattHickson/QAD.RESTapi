@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-using POSAPI.Models;
-using Project.Models;
+using POSPages.Models;
 
 namespace POSPages.Pages
 {
@@ -50,7 +49,7 @@ namespace POSPages.Pages
         {
             using (var client = new HttpClient())
             {
-                var targeturi = "https://localhost:7148/api/Customer";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Customer";
                 var Sender = new Uri(targeturi);
                 var List = client.GetFromJsonAsync<List<Customer>>(Sender).Result;
                 client.Dispose();
@@ -88,7 +87,7 @@ namespace POSPages.Pages
             using (var client = new HttpClient())
             {
 
-                var targeturi = "https://localhost:7148/api/Cart";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Cart";
                 var Sender = new Uri(targeturi);
                 var Cart = client.GetFromJsonAsync<List<Cart>>(Sender).Result;
                 client.Dispose();
@@ -133,7 +132,7 @@ namespace POSPages.Pages
             using (var client = new HttpClient())
             {
 
-                var targeturi = "https://localhost:7148/api/Receipt";
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Receipt";
                 var Sender = new Uri(targeturi);
                 var payload = client.PostAsJsonAsync<Receipt>(Sender, receipt).Result;
                 client.Dispose();
@@ -148,7 +147,7 @@ namespace POSPages.Pages
                 //Achive into an AchiveCart here with a Date
                 using (var client = new HttpClient())
                 {
-                    var targeturi = "https://localhost:7148/api/Cart?id=" + Items[count].Id;
+                    var targeturi = "https://poswebapiservice.azurewebsites.net/api/Cart?id=" + Items[count].Id;
                     var Sender = new Uri(targeturi);
                     var payload = client.DeleteAsync(Sender).Result;
                     client.Dispose();
@@ -162,7 +161,7 @@ namespace POSPages.Pages
             int target = int.Parse(data);
             using (var client = new HttpClient())
             {
-                var targeturi = "https://localhost:7148/api/Cart?id=" + target;
+                var targeturi = "https://poswebapiservice.azurewebsites.net/api/Cart?id=" + target;
                 var Sender = new Uri(targeturi);
                 var payload = client.DeleteAsync(Sender).Result;
                 client.Dispose();
