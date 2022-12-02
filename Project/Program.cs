@@ -36,6 +36,10 @@ builder.Services.AddDbContext<DivinePoolContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("PathBot"));
 });
+builder.Services.AddDbContext<SkillsContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("PathBot"));
+});
 
 var app = builder.Build();
 

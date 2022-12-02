@@ -20,5 +20,11 @@ namespace Project.Data
         public DbSet<DivinePool> DivinePools { get; set; }
 
     }
+    public class SkillsContext : DbContext
+    {
+        public SkillsContext(DbContextOptions<SkillsContext> options) : base(options) { }
+        public DbSet<Skills> skills { get; set; }
+
+    }
 }
 
