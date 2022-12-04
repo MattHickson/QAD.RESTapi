@@ -29,6 +29,10 @@ namespace POSAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -39,7 +43,7 @@ namespace POSAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("skills");
+                    b.ToTable("Skills");
                 });
 #pragma warning restore 612, 618
         }

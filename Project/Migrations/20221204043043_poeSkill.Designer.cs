@@ -11,8 +11,8 @@ using Project.Data;
 namespace POSAPI.Migrations
 {
     [DbContext(typeof(SkillsContext))]
-    [Migration("20221202184606_skills2")]
-    partial class skills2
+    [Migration("20221204043043_poeSkill")]
+    partial class poeSkill
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,6 +31,10 @@ namespace POSAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -41,7 +45,7 @@ namespace POSAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("skills");
+                    b.ToTable("Skills");
                 });
 #pragma warning restore 612, 618
         }

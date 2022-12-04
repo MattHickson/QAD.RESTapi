@@ -23,7 +23,7 @@ namespace Project.Data
     public class SkillsContext : DbContext
     {
         public SkillsContext(DbContextOptions<SkillsContext> options) : base(options) { }
-        public DbSet<Skills> skills { get; set; }
+        public DbSet<Skills> Skills { get; set; }
 
     }
 }

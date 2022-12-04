@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using POSAPI.Models;
 using Project.Models;
-using POSAPI.Models;
+
 
 namespace POSAPI.Controllers
 {
